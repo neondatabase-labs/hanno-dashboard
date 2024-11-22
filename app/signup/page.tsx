@@ -29,15 +29,19 @@ export default async function () {
             <p className="text-balance text-muted-foreground">Enter your email below to sign up with an account</p>
           </div>
           {providers
-            .filter((provider) => provider({}).id !== 'credentials')
+            .filter((provider) => (typeof provider === 'function' ? provider({}).id : provider.id) !== 'credentials')
             .map((provider) => (
-              <Provider prefix="Sign up" key={provider({}).name} provider={provider({})} />
+              <Provider
+                prefix="Sign up"
+                key={typeof provider === 'function' ? provider({}).name : provider.name}
+                provider={typeof provider === 'function' ? provider({}) : provider}
+              />
             ))}
           <p className="text-gray-300 text-xs text-center">OR</p>
           <form method="POST" className="grid gap-4" action="/api/auth/callback/credentials">
             <div className="grid gap-2">
-              <Label htmlFor="username">Email</Label>
-              <Input name="username" id="username" type="text" placeholder="m@example.com" required />
+              <Label htmlFor="email">Email</Label>
+              <Input name="email" id="email" type="email" placeholder="m@example.com" required />
             </div>
             <div className="grid gap-2">
               <div className="flex items-center">

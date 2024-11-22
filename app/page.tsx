@@ -1,6 +1,6 @@
 'use client'
 
-import { useSession } from 'next-auth/react'
+import { signOut, useSession } from 'next-auth/react'
 import Link from 'next/link'
 
 export default function () {
@@ -8,8 +8,9 @@ export default function () {
   return (
     <>
       {JSON.stringify({ session, status })}
-      <Link href="/signin">Sign in</Link>
-      <Link href="/signup">Sign up</Link>
+      {!session && <Link href="/signin">Sign in</Link>}
+      {session && <Link href="/signup">Sign up</Link>}
+      {session && <button onClick={() => signOut()}>Sign out</button>}
     </>
   )
 }
