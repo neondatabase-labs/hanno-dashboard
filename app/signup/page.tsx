@@ -64,8 +64,8 @@ export default async function () {
       </div>
       <div className="hidden lg:block">
         <img
-          src="https://images.unsplash.com/photo-1678811116814-26372fcfef1b?q=80&w=3088&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
           className="h-[98vh] w-full object-cover"
+          src="https://images.unsplash.com/photo-1678811116814-26372fcfef1b?q=80&w=3088&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
         />
       </div>
     </div>
