@@ -3,7 +3,7 @@ services:
     name: hanno-blog
     runtime: node
     plan: free
-    buildCommand: pnpm install --prod=false; pnpm build
+    buildCommand: pnpm install --prod=false; pnpm schema; pnpm build
     startCommand: pnpm start
     autoDeploy: false
     envVars:
