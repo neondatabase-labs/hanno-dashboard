@@ -1,13 +1,19 @@
 services:
   - type: web
-    name: hanno-blog
-    runtime: node
     plan: free
+    runtime: node
+    autoDeploy: false
+    name: hanno-dashboard
     buildCommand: pnpm install --prod=false; pnpm schema; pnpm build
     startCommand: pnpm start
-    autoDeploy: false
     envVars:
       - key: NODE_ENV
         value: production
+      - key: AUTH_SECRET
+        sync: false
+      - key: AUTH_GOOGLE_SECRET
+        sync: false
+      - key: AUTH_GOOGLE_ID
+        sync: false
       - key: DATABASE_URL
         sync: false
