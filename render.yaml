@@ -4,8 +4,8 @@ services:
     runtime: node
     autoDeploy: false
     name: hanno-dashboard
-    buildCommand: pnpm install --prod=false; pnpm schema; pnpm build
-    startCommand: pnpm start
+    buildCommand: npm install --prod=false; npm run schema; npm run build
+    startCommand: npm run start
     envVars:
       - key: NODE_ENV
         value: production
