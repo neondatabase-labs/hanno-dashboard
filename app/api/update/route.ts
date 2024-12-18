@@ -17,6 +17,6 @@ export async function POST() {
   const [{ name, email, image }] = await sql(`SELECT name, email, image FROM users WHERE email = $1 LIMIT 1`, [session.user.email])
   const salt = 'authjs.session-token'
   const saltVal = await encode({ salt, secret: process.env.AUTH_SECRET, token: { name, email, image } })
-  cookieStore.set(salt, saltVal, { secure: true, path: '/', httpOnly: true })
+  cookieStore.set(salt, saltVal, { secure: true, path: '/', httpOnly: true, sameSite: "lax" })
   return new Response()
 }
