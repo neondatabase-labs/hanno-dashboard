@@ -1,3 +1,4 @@
+import UserAvatar from '@/components/user/avatar'
 import config from '@/lib/config'
 import Link from 'next/link'
 
@@ -8,18 +9,22 @@ export default function () {
         <Link href="/">
           <img loading="lazy" decoding="async" src={config.logo} width={158} height={48} className="h-[30px] w-auto" alt="Neon Logo" />
         </Link>
+        <span className="md:hidden">
+          <UserAvatar />
+        </span>
         <div className="hidden md:flex flex-row items-center gap-x-3">
+          <UserAvatar />
           <a
+            target="_blank"
             aria-label="Deploy to Vercel"
             href="https://vercel.com/new/clone?repository-url=https://github.com/neondatabase-labs/hanno-blog&env=DATABASE_URL,RESEND_API_KEY"
-            target="_blank"
           >
             <img alt="Deploy to Vercel" loading="lazy" decoding="async" src="https://vercel.com/button" width="103" height="32" />
           </a>
           <a
+            target="_blank"
             aria-label="Deploy to Netlify"
             href="https://app.netlify.com/start/deploy?repository=https://github.com/neondatabase-labs/hanno-blog#DATABASE_URL&RESEND_API_KEY"
-            target="_blank"
           >
             <img alt="Deploy to Netlify" loading="lazy" decoding="async" src="https://www.netlify.com/img/deploy/button.svg" width="179" height="32" className="h-[30px] w-auto" />
           </a>
