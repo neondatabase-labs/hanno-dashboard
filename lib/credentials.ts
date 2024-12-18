@@ -1,18 +1,25 @@
-import bcrypt from 'bcryptjs'
-import { createHash, randomBytes } from 'crypto'
-
 export function generateRandomToken() {
-  return randomBytes(20).toString('hex')
+  const array = new Uint8Array(20)
+  crypto.getRandomValues(array)
+  return Array.from(array, byte => byte.toString(16).padStart(2, '0')).join('')
 }
 
 export function generateRandomString(inputValue: string) {
-  return createHash('sha256').update(String(inputValue)).digest('hex')
+  const encoder = new TextEncoder()
+  const data = encoder.encode(inputValue)
+  return crypto.subtle.digest('SHA-256', data).then(hashBuffer => {
+    return Array.from(new Uint8Array(hashBuffer)).map(byte => byte.toString(16).padStart(2, '0')).join('')
+  })
 }
 
 export async function hashPassword(password: string) {
-  return await bcrypt.hash(password, 10)
+  const encoder = new TextEncoder()
+  const data = encoder.encode(password)
+  const hashBuffer = await crypto.subtle.digest('SHA-256', data)
+  return Array.from(new Uint8Array(hashBuffer)).map(byte => byte.toString(16).padStart(2, '0')).join('')
 }
 
 export async function comparePassword(password: string, hash: string) {
-  return await bcrypt.compare(password, hash)
+  const hashedPassword = await hashPassword(password)
+  return hashedPassword === hash
 }

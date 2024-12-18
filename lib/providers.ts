@@ -14,7 +14,7 @@ export default [
     },
     authorize: async (credentials) => {
       if (!process.env.DATABASE_URL || !credentials.email || typeof credentials.email !== 'string' || !credentials.password || typeof credentials.password !== 'string') return null
-      const randomizedPassword = generateRandomString(credentials.password)
+      const randomizedPassword = await generateRandomString(credentials.password)
       const sql = neon(process.env.DATABASE_URL)
       const [userByEmail] = await sql(`SELECT * FROM users where email = $1 LIMIT 1`, [credentials.email])
       if (userByEmail) {
