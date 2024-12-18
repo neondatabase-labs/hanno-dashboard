@@ -1,7 +1,6 @@
 import Footer from '@/components/footer'
 import Header from '@/components/header'
 import { ThemeProvider } from '@/components/theme-provider'
-import Toggle from '@/components/toggle'
 import config from '@/lib/config'
 import type { Metadata } from 'next'
 import './globals.css'
@@ -35,7 +34,6 @@ export default function ({
         <NextAuthProvider>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
             <Header />
-            <Toggle />
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col">{children}</div>
             <Footer />
           </ThemeProvider>

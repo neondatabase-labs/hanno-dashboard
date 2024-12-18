@@ -1,3 +1,4 @@
+import Toggle from '@/components/toggle'
 import { Icon } from '@iconify/react'
 import Link from 'next/link'
 
@@ -25,14 +26,17 @@ export default function () {
             src="https://neon.tech/brand/neon-logo-dark-color.svg"
           />
         </Link>
-        <a
-          target="_blank"
-          href="https://github.com/neondatabase-labs/hanno-blog"
-          className="text-gray-400 hover:text-white fill-gray-400 hover:fill-white flex flex-row items-center gap-x-3"
-        >
-          <Icon fontSize={18} icon="mdi:github" />
-          <span>View Source</span>
-        </a>
+        <div className="flex flex-row items-center gap-x-3">
+          <Toggle />
+          <a
+            target="_blank"
+            href="https://github.com/neondatabase-labs/hanno-blog"
+            className="text-gray-400 hover:text-white fill-gray-400 hover:fill-white flex flex-row items-center gap-x-3"
+          >
+            <Icon fontSize={18} icon="mdi:github" />
+            <span>View Source</span>
+          </a>
+        </div>
       </div>
     </footer>
   )
