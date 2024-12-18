@@ -9,14 +9,15 @@ import { cookies } from 'next/headers'
 
 neonConfig.poolQueryViaFetch = true
 
-export async function POST() {
+export async function POST(request: Request) {
+  const useSecureCookie = new URL(request.url).protocol.includes('https')
   if (!process.env.DATABASE_URL || !process.env.AUTH_SECRET) return new Response(null, { status: 500 })
   const [session, cookieStore] = await Promise.all([auth(), cookies()])
   if (!session?.user?.email) return new Response(null, { status: 400 })
   const sql = neon(process.env.DATABASE_URL)
   const [{ name, email, image }] = await sql(`SELECT name, email, image FROM users WHERE email = $1 LIMIT 1`, [session.user.email])
-  const salt = '__Secure-authjs.session-token'
+  const salt = useSecureCookie ? '__Secure-authjs.session-token' : 'authjs.session-token'
   const saltVal = await encode({ salt, secret: process.env.AUTH_SECRET, token: { name, email, image } })
-  cookieStore.set(salt, saltVal, { secure: true, path: '/', httpOnly: true, sameSite: "lax" })
+  cookieStore.set(salt, saltVal, { secure: useSecureCookie, path: '/', httpOnly: true, sameSite: "lax" })
   return new Response()
 }
