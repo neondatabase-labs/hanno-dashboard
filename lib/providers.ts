@@ -1,7 +1,9 @@
-import { Client } from '@neondatabase/serverless'
+import { Client, neonConfig } from '@neondatabase/serverless'
 import Credentials from 'next-auth/providers/credentials'
 import Google from 'next-auth/providers/google'
 import { comparePassword, generateRandomString, hashPassword } from './credentials'
+
+neonConfig.poolQueryViaFetch = true
 
 export default [
   Google,
