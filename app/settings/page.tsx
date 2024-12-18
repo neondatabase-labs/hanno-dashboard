@@ -8,7 +8,7 @@ import Link from 'next/link'
 import { useEffect, useState } from 'react'
 
 export default function () {
-  const { data: session, status } = useSession()
+  const { data: session, status, update } = useSession()
   const [userData, setUserData] = useState<{ [k: string]: string }>({ name: '', image: '' })
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
@@ -20,7 +20,7 @@ export default function () {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ [field]: userData[field] }),
     }).then((res) => {
-      if (res.ok) fetch('/api/update')
+      if (res.ok) fetch('/api/update').then(update)
     })
   }
   useEffect(() => {
