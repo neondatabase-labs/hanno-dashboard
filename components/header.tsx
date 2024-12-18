@@ -1,5 +1,4 @@
 import UserAvatar from '@/components/user/avatar'
-import config from '@/lib/config'
 import Link from 'next/link'
 
 export default function () {
@@ -7,7 +6,24 @@ export default function () {
     <header className="border-b border-white/10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
         <Link href="/">
-          <img loading="lazy" decoding="async" src={config.logo} width={158} height={48} className="h-[30px] w-auto" alt="Neon Logo" />
+          <img
+            width={158}
+            height={48}
+            loading="lazy"
+            alt="Neon Logo"
+            decoding="async"
+            className="h-[30px] w-auto dark:hidden"
+            src="https://neon.tech/brand/neon-logo-light-color.svg"
+          />
+          <img
+            width={158}
+            height={48}
+            loading="lazy"
+            alt="Neon Logo"
+            decoding="async"
+            className="h-[30px] w-auto hidden dark:block"
+            src="https://neon.tech/brand/neon-logo-dark-color.svg"
+          />
         </Link>
         <span className="md:hidden">
           <UserAvatar />
