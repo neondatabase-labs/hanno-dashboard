@@ -7,10 +7,7 @@ import { useEffect, useState } from 'react'
 
 export default function () {
   const { data: session, status } = useSession()
-  const [userData, setUserData] = useState<{ [k: string]: any }>({
-    name: session?.user?.name || '',
-    image: session?.user?.image || '',
-  })
+  const [userData, setUserData] = useState<{ [k: string]: string }>({})
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
     setUserData((prevData) => ({ ...prevData, [name]: value }))
@@ -24,7 +21,7 @@ export default function () {
     if (response.ok) fetch('/api/update')
   }
   useEffect(() => {
-    if (status === 'authenticated') {
+    if (status !== 'loading') {
       setUserData({
         name: session?.user?.name || '',
         image: session?.user?.image || '',
