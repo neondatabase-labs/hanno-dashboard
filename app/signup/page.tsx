@@ -1,3 +1,5 @@
+export const runtime = 'edge'
+
 import { CSRFInput } from '@/app/csrf'
 import Provider from '@/app/provider'
 import { Button } from '@/components/ui/button'
