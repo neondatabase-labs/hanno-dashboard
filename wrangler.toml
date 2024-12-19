@@ -1,0 +1,9 @@
+name = "hanno-dashboard"
+compatibility_date = "2024-09-23"
+compatibility_flags = ["nodejs_compat"]
+pages_build_output_dir = ".vercel/output/static"
+# [vars]
+# AUTH_SECRET="..."
+# AUTH_GOOGLE_SECRET="...-..."
+# AUTH_GOOGLE_ID="..-...apps.googleusercontent.com"
+# DATABASE_URL="postgresql://...:...@ep-...us-east-1.aws.neon.tech/neondb?sslmode=require"
