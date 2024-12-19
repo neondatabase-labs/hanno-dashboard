@@ -24,7 +24,6 @@ export default function () {
     })
   }
   useEffect(() => {
-    console.log(session)
     if (status !== 'loading') {
       setUserData({
         name: session?.user?.name || '',
