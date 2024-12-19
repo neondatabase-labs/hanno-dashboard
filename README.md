@@ -30,6 +30,9 @@ https://hanno-dashboard.vercel.app
 You can deploy this template to Vercel/Netlify/Render with the buttons below:
 
 <div>
+    <a target="_blank" href="https://deploy.workers.cloudflare.com/?url=https://github.com/neondatabase-labs/hanno-dashboard">
+        <img src="https://deploy.workers.cloudflare.com/button" width="146.4" height="31.2" />
+    </a>
     <a href="https://vercel.com/new/clone?repository-url=https://github.com/neondatabase-labs/hanno-dashboard&env=AUTH_SECRET,AUTH_GOOGLE_SECRET,AUTH_GOOGLE_ID,DATABASE_URL" target="_blank">
         <img src="https://vercel.com/button" width="103" height="32" />
     </a>

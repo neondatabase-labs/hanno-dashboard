@@ -30,6 +30,9 @@ export default function () {
         </span>
         <div className="hidden md:flex flex-row items-center gap-x-3">
           <UserAvatar />
+          <a target="_blank" aria-label="Deploy to Cloudflare Pages" href="https://deploy.workers.cloudflare.com/?url=https://github.com/neondatabase-labs/hanno-dashboard">
+            <img alt="Deploy to Cloudflare Pages" loading="lazy" decoding="async" src="https://deploy.workers.cloudflare.com/button" width="146.4" height="31.2" />
+          </a>
           <a
             target="_blank"
             aria-label="Deploy to Vercel"
