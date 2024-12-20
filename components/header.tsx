@@ -36,18 +36,18 @@ export default function () {
           <a
             target="_blank"
             aria-label="Deploy to Vercel"
-            href="https://vercel.com/new/clone?repository-url=https://github.com/neondatabase-labs/hanno-blog&env=DATABASE_URL,RESEND_API_KEY"
+            href="https://vercel.com/new/clone?repository-url=https://github.com/neondatabase-labs/hanno-dashboard&env=DATABASE_URL,RESEND_API_KEY"
           >
             <img alt="Deploy to Vercel" loading="lazy" decoding="async" src="https://vercel.com/button" width="103" height="32" />
           </a>
           <a
             target="_blank"
             aria-label="Deploy to Netlify"
-            href="https://app.netlify.com/start/deploy?repository=https://github.com/neondatabase-labs/hanno-blog#DATABASE_URL&RESEND_API_KEY"
+            href="https://app.netlify.com/start/deploy?repository=https://github.com/neondatabase-labs/hanno-dashboard#DATABASE_URL&RESEND_API_KEY"
           >
             <img alt="Deploy to Netlify" loading="lazy" decoding="async" src="https://www.netlify.com/img/deploy/button.svg" width="179" height="32" className="h-[30px] w-auto" />
           </a>
-          <a aria-label="Deploy to Render" href="https://render.com/deploy?repo=https://github.com/neondatabase-labs/hanno-blog" target="_blank">
+          <a aria-label="Deploy to Render" href="https://render.com/deploy?repo=https://github.com/neondatabase-labs/hanno-dashboard" target="_blank">
             <img
               width="153"
               height="40"

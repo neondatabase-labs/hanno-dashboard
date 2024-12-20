@@ -30,7 +30,7 @@ export default function () {
           <Toggle />
           <a
             target="_blank"
-            href="https://github.com/neondatabase-labs/hanno-blog"
+            href="https://github.com/neondatabase-labs/hanno-dashboard"
             className="text-gray-400 hover:text-white fill-gray-400 hover:fill-white flex flex-row items-center gap-x-3"
           >
             <Icon fontSize={18} icon="mdi:github" />
