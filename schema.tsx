@@ -12,7 +12,8 @@ async function prepare() {
     sql`CREATE TABLE IF NOT EXISTS sessions (id SERIAL, "userId" INTEGER NOT NULL, expires TIMESTAMPTZ NOT NULL, "sessionToken" VARCHAR(255) NOT NULL, PRIMARY KEY (id));`,
     sql`CREATE TABLE IF NOT EXISTS users (id SERIAL, name VARCHAR(255), email VARCHAR(255), "emailVerified" TIMESTAMPTZ, image TEXT, password TEXT, CITY TEXT, RPU BIGINT, PRIMARY KEY (id));`,
   ])
-  console.log('Created schema succesfully.')
+  await sql`CREATE INDEX IF NOT EXISTS idx_users_id ON users (id);`
+  console.log('Created schema successfully.')
 }
 
 prepare()
