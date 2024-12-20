@@ -37,8 +37,11 @@ export async function GET(request: Request) {
     const limit = parseInt(url.searchParams.get('limit') || '10', 10)
     const offset = (page - 1) * limit
     const sql = neon(process.env.DATABASE_URL)
+    const totalUsersResult = await sql(`SELECT COUNT(*) FROM users`)
+    const totalUsers = totalUsersResult[0].count
+    const pageCount = Math.ceil(totalUsers / limit)
     const users = await sql(`SELECT id, name, email, city, rpu, image, "emailVerified" FROM users LIMIT $1 OFFSET $2`, [limit, offset])
-    return NextResponse.json(users)
+    return NextResponse.json({ users, pageCount })
   } catch (e: any) {
     const message = e.message || e.toString()
     console.log(message)

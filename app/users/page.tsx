@@ -113,36 +113,48 @@ export const columns: ColumnDef<User>[] = [
 ]
 
 export default function () {
+  const [pageCount, setPageCount] = useState(-1)
   const [rowSelection, setRowSelection] = useState({})
   const [data, setInternalData] = useState<User[]>([])
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
+  const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 10 })
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
+
+  const fetchData = async (pageIndex: number, pageSize: number) => {
+    const res = await fetch(`/api/user?page=${pageIndex + 1}&limit=${pageSize}`)
+    const data = await res.json()
+    setInternalData(data.users)
+    setPageCount(data.pageCount)
+  }
+
   const table = useReactTable({
     data,
     columns,
-    onSortingChange: setSorting,
-    onColumnFiltersChange: setColumnFilters,
-    getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-    onColumnVisibilityChange: setColumnVisibility,
-    onRowSelectionChange: setRowSelection,
+    pageCount,
     state: {
       sorting,
+      pagination,
       rowSelection,
       columnFilters,
       columnVisibility,
     },
+    manualPagination: true,
+    onSortingChange: setSorting,
+    onPaginationChange: setPagination,
+    getCoreRowModel: getCoreRowModel(),
+    onRowSelectionChange: setRowSelection,
+    getSortedRowModel: getSortedRowModel(),
+    onColumnFiltersChange: setColumnFilters,
+    getFilteredRowModel: getFilteredRowModel(),
+    onColumnVisibilityChange: setColumnVisibility,
+    getPaginationRowModel: getPaginationRowModel(),
   })
+
   useEffect(() => {
-    fetch('/api/user')
-      .then((res) => res.json())
-      .then((res) => {
-        setInternalData(res)
-      })
-  }, [])
+    fetchData(pagination.pageIndex, pagination.pageSize)
+  }, [pagination])
+
   return (
     <div className="w-full">
       <div className="flex items-center py-4">
