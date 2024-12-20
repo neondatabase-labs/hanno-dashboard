@@ -21,7 +21,7 @@ import {
 import { ArrowUpDown, ChevronDown } from 'lucide-react'
 import { useEffect, useState } from 'react'
 
-export type User = {
+type User = {
   id: number
   rpu?: number
   name?: string
@@ -31,7 +31,7 @@ export type User = {
   emailVerified?: string
 }
 
-export const columns: ColumnDef<User>[] = [
+const columns: ColumnDef<User>[] = [
   {
     id: 'select',
     header: ({ table }) => (
@@ -123,9 +123,11 @@ export default function () {
 
   const fetchData = async (pageIndex: number, pageSize: number) => {
     const res = await fetch(`/api/user?page=${pageIndex + 1}&limit=${pageSize}`)
-    const data = await res.json()
-    setInternalData(data.users)
-    setPageCount(data.pageCount)
+    if (res.ok) {
+      const data = await res.json()
+      setInternalData(data.users)
+      setPageCount(data.pageCount)
+    }
   }
 
   const table = useReactTable({
