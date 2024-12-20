@@ -10,7 +10,7 @@ export default function ({ provider, prefix }: { prefix: string; provider: { nam
       {provider.id === 'google' && <Icon fontSize={18} icon="flat-color-icons:google" />}
       {provider.id === 'github' && <Icon fontSize={18} icon="mage:github" />}
       {provider.id === 'facebook' && <Icon fontSize={18} icon="logos:facebook" />}
-      <span className="text-black">
+      <span>
         {prefix} with {provider.name}
       </span>
     </Button>

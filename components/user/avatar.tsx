@@ -31,6 +31,9 @@ export default function () {
             <Link href="/">Home</Link>
           </DropdownMenuItem>
           <DropdownMenuItem>
+            <Link href="/users">Users</Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem>
             <Link href="/settings">Settings</Link>
           </DropdownMenuItem>
         </DropdownMenuContent>
