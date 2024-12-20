@@ -114,6 +114,7 @@ const columns: ColumnDef<User>[] = [
 
 export default function () {
   const [pageCount, setPageCount] = useState(-1)
+  const [isLoading, setIsLoading] = useState(false)
   const [rowSelection, setRowSelection] = useState({})
   const [data, setInternalData] = useState<User[]>([])
   const [sorting, setSorting] = useState<SortingState>([])
@@ -122,12 +123,14 @@ export default function () {
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
 
   const fetchData = async (pageIndex: number, pageSize: number) => {
+    setIsLoading(true)
     const res = await fetch(`/api/user?page=${pageIndex + 1}&limit=${pageSize}`)
     if (res.ok) {
       const data = await res.json()
       setInternalData(data.users)
       setPageCount(data.pageCount)
     }
+    setIsLoading(false)
   }
 
   const table = useReactTable({
@@ -198,7 +201,17 @@ export default function () {
             ))}
           </TableHeader>
           <TableBody>
-            {table.getRowModel().rows?.length ? (
+            {isLoading ? (
+              new Array(10).fill(0).map((_: any, rowID) => (
+                <TableRow key={rowID}>
+                  {columns.map((_: any, cellId: number) => (
+                    <TableCell key={cellId}>
+                      <span className="animate-pulse dark:bg-white/10 bg-black/10">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))
+            ) : table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
                   {row.getVisibleCells().map((cell) => (
