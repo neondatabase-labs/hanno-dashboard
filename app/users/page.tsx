@@ -19,7 +19,7 @@ import {
   useReactTable,
 } from '@tanstack/react-table'
 import { ArrowUpDown, ChevronDown } from 'lucide-react'
-import * as React from 'react'
+import { useEffect, useState } from 'react'
 
 export type User = {
   id: number
@@ -113,11 +113,11 @@ export const columns: ColumnDef<User>[] = [
 ]
 
 export default function () {
-  const [rowSelection, setRowSelection] = React.useState({})
-  const [data, setInternalData] = React.useState<User[]>([])
-  const [sorting, setSorting] = React.useState<SortingState>([])
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
-  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
+  const [rowSelection, setRowSelection] = useState({})
+  const [data, setInternalData] = useState<User[]>([])
+  const [sorting, setSorting] = useState<SortingState>([])
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const table = useReactTable({
     data,
     columns,
@@ -136,7 +136,7 @@ export default function () {
       columnVisibility,
     },
   })
-  React.useEffect(() => {
+  useEffect(() => {
     fetch('/api/user')
       .then((res) => res.json())
       .then((res) => {
