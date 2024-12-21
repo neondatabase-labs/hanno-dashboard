@@ -3,8 +3,11 @@ import Header from '@/components/header'
 import { ThemeProvider } from '@/components/theme-provider'
 import config from '@/lib/config'
 import type { Metadata } from 'next'
+import { Inter } from 'next/font/google'
 import './globals.css'
 import NextAuthProvider from './NextAuthProvider'
+
+const geist = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: config.title,
@@ -29,7 +32,7 @@ export default function ({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning className={geist.className}>
       <body className="bg-white dark:bg-black text-black dark:text-white antialiased">
         <NextAuthProvider>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>

@@ -8,12 +8,15 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { cn } from '@/lib/utils'
 import { format } from 'date-fns'
 import { CalendarIcon } from 'lucide-react'
+import { useSession } from 'next-auth/react'
+import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { CartesianGrid, Line, LineChart, XAxis, YAxis } from 'recharts'
 
 const chartConfig = {} satisfies ChartConfig
 
 export default function () {
+  const { status } = useSession()
   const [chartData, setChartData] = useState([])
   const [date, setDate] = useState<{ from: Date; to: Date }>({
     from: new Date(2024, 11, 1),
@@ -84,9 +87,19 @@ export default function () {
           </div>
         </CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="relative">
+        {status === 'unauthenticated' && (
+          <>
+            <div className="absolute z-40 bg-gray-100 blur-lg w-[95%] h-[95%]"></div>
+            <div className="absolute bg-transparent z-40 w-[95%] h-[95%] flex flex-col items-center justify-center">
+              <Link href="/signin" className="z-50 absolute border rounded px-5 py-2 hover:border-black">
+                Sign in to view the chart &rarr;
+              </Link>
+            </div>
+          </>
+        )}
         <ChartContainer className="mt-4" config={chartConfig}>
-          <LineChart accessibilityLayer data={chartData} margin={{ left: 12, right: 12 }}>
+          <LineChart accessibilityLayer data={chartData}>
             <CartesianGrid vertical={false} />
             <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
             <YAxis domain={[0, Math.max(...chartData.map(({ total_sales }: { total_sales: number }) => total_sales)) + 20]} />

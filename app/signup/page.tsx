@@ -24,7 +24,7 @@ export default async function () {
   if (session) redirect('/')
   return (
     <div className="w-full lg:grid lg:grid-cols-2">
-      <div className="border md:border-white/10 flex items-center justify-center py-12">
+      <div className=" flex items-center justify-center py-12">
         <div className="mx-auto grid w-[350px] gap-6">
           <div className="grid gap-2 text-center">
             <h1 className="text-3xl font-bold">Sign Up</h1>

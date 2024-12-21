@@ -6,4 +6,5 @@ export const { handlers, signIn, signOut, auth } = NextAuth(() => ({
   providers,
   adapter: getAdapter(),
   session: { strategy: 'jwt' },
+  pages: { signIn: '/signin' },
 }))
