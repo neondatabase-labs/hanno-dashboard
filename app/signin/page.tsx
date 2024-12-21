@@ -1,5 +1,9 @@
 export const runtime = 'edge'
 
+export const dynamic = 'force-dynamic'
+
+export const fetchCache = 'force-no-store'
+
 import { CSRFInput } from '@/app/csrf'
 import Provider from '@/app/provider'
 import { Button } from '@/components/ui/button'
