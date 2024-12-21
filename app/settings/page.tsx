@@ -3,8 +3,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { signOut, useSession } from 'next-auth/react'
-import Link from 'next/link'
+import { signIn, signOut, useSession } from 'next-auth/react'
 import { useEffect, useState } from 'react'
 
 export default function () {
@@ -67,7 +66,7 @@ export default function () {
           <button onClick={() => signOut()}>Sign out</button>
         </div>
       ) : (
-        <Link href="/signin">Sign in</Link>
+        <button onClick={() => signIn()}>Sign in</button>
       )}
     </>
   )

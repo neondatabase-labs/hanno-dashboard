@@ -8,8 +8,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { cn } from '@/lib/utils'
 import { format } from 'date-fns'
 import { CalendarIcon } from 'lucide-react'
-import { useSession } from 'next-auth/react'
-import Link from 'next/link'
+import { signIn, useSession } from 'next-auth/react'
 import { useEffect, useState } from 'react'
 import { CartesianGrid, Line, LineChart, XAxis, YAxis } from 'recharts'
 
@@ -88,13 +87,24 @@ export default function () {
         </CardDescription>
       </CardHeader>
       <CardContent className="relative">
-        {status === 'unauthenticated' && (
+        {status !== 'authenticated' && (
           <>
             <div className="absolute z-40 bg-gray-100 blur-lg w-[95%] h-[95%]"></div>
             <div className="absolute bg-transparent z-40 w-[95%] h-[95%] flex flex-col items-center justify-center">
-              <Link href="/signin" className="z-50 absolute border rounded px-5 py-2 hover:border-black">
-                Sign in to view the chart &rarr;
-              </Link>
+              {status === 'unauthenticated' ? (
+                <button onClick={() => signIn()} className="z-50 absolute border rounded px-5 py-2 hover:border-black">
+                  Sign in to view the chart &rarr;
+                </button>
+              ) : (
+                <svg className="animate-spin -ml-1 mr-3 size-10 text-brand" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx={12} cy={12} r={10} stroke="currentColor" strokeWidth={4} />
+                  <path
+                    fill="currentColor"
+                    className="opacity-75"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  />
+                </svg>
+              )}
             </div>
           </>
         )}
