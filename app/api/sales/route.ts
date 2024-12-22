@@ -5,19 +5,15 @@ export const dynamic = 'force-dynamic'
 export const fetchCache = 'force-no-store'
 
 import { auth } from '@/lib/auth'
-import { neon, neonConfig } from '@neondatabase/serverless'
+import sql from '@/lib/sql'
 import { NextResponse } from 'next/server'
-
-neonConfig.poolQueryViaFetch = true
 
 export async function GET(request: Request) {
   const session = await auth()
   if (!session?.user?.email) return new NextResponse(null, { status: 400 })
-  if (!process.env.DATABASE_URL) return new NextResponse(null, { status: 500 })
   const startDate = new URL(request.url).searchParams.get('startDate')
   const endDate = new URL(request.url).searchParams.get('endDate')
   if (!startDate || !endDate) return new NextResponse(null, { status: 400 })
-  const sql = neon(process.env.DATABASE_URL)
   const query = `
     SELECT 
       sale_date,

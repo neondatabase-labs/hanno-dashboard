@@ -1,7 +1,5 @@
-import { neon, neonConfig } from '@neondatabase/serverless'
 import 'dotenv/config'
-
-neonConfig.poolQueryViaFetch = true
+import sql from './lib/sql'
 
 const seedQueries = [
   'CREATE TABLE IF NOT EXISTS verification_token (identifier TEXT NOT NULL, expires TIMESTAMPTZ NOT NULL, token TEXT NOT NULL, PRIMARY KEY (identifier, token));',
@@ -24,8 +22,6 @@ const seedQueries = [
 ]
 
 async function prepare() {
-  if (!process.env.DATABASE_URL) throw new Error('DATABASE_URL environment variable not found.')
-  const sql = neon(process.env.DATABASE_URL)
   for (const line of seedQueries) await sql(line)
   console.log('Created schema successfully.')
 }

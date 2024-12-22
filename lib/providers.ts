@@ -1,9 +1,7 @@
-import { neon, neonConfig } from '@neondatabase/serverless'
 import Credentials from 'next-auth/providers/credentials'
 import Google from 'next-auth/providers/google'
 import { comparePassword, generateRandomString, hashPassword } from './credentials'
-
-neonConfig.poolQueryViaFetch = true
+import sql from './sql'
 
 export default [
   Google,
@@ -15,7 +13,6 @@ export default [
     authorize: async (credentials) => {
       if (!process.env.DATABASE_URL || !credentials.email || typeof credentials.email !== 'string' || !credentials.password || typeof credentials.password !== 'string') return null
       const randomizedPassword = await generateRandomString(credentials.password)
-      const sql = neon(process.env.DATABASE_URL)
       const [userByEmail] = await sql(`SELECT * FROM users where email = $1 LIMIT 1`, [credentials.email])
       if (userByEmail) {
         if (userByEmail.password) {
