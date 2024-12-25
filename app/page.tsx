@@ -6,7 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { cn } from '@/lib/utils'
-import { differenceInDays, format } from 'date-fns'
+import { differenceInDays, format, subDays } from 'date-fns'
 import { CalendarIcon } from 'lucide-react'
 import { signIn, useSession } from 'next-auth/react'
 import { useEffect, useState } from 'react'
@@ -48,8 +48,8 @@ export default function () {
       .catch(console.log)
   }, [salesRange])
   useEffect(() => {
-    const newParams = new URLSearchParams({ len: differenceInDays(newCustomersRange.to, newCustomersRange.from).toString() })
-    fetch(`/api/new-customers?${newParams.toString()}`)
+    const params = new URLSearchParams({ startDate: format(newCustomersRange.from, 'yyyy-MM-dd'), endDate: format(newCustomersRange.to, 'yyyy-MM-dd') })
+    fetch(`/api/new-customers?${params.toString()}`)
       .then((res) => res.json())
       .then((res) => {
         setNewCustomers({
@@ -60,17 +60,17 @@ export default function () {
       .catch(console.log)
   }, [newCustomersRange])
   return (
-    <div className="mt-4 grid grid-cols-2 gap-4">
-      <Card>
-        <CardHeader>
+    <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-y-4 md:gap-x-4">
+      <Card className="border border-gray-100 px-5 py-5 rounded-none shadow-none">
+        <CardHeader className="p-0">
           <CardTitle>Total Sales</CardTitle>
           <CardDescription>
-            <div className="flex flex-row items-center justify-between w-full">
-              <span>
+            <div className="flex flex-col md:flex-row items-center justify-between w-full">
+              <span className="w-full">
                 {format(salesRange.from, 'd MMMM yyyy')} - {format(salesRange.to, 'd MMMM yyyy')}
               </span>
               <Popover>
-                <PopoverTrigger asChild>
+                <PopoverTrigger className="mt-3" asChild>
                   <Button id="date" variant={'outline'} className={cn('w-[300px] justify-start text-left font-normal', !salesRange && 'text-muted-foreground')}>
                     <CalendarIcon />
                     {salesRange?.from ? (
@@ -102,7 +102,7 @@ export default function () {
             </div>
           </CardDescription>
         </CardHeader>
-        <CardContent className="relative">
+        <CardContent className="relative p-0">
           {status !== 'authenticated' && (
             <>
               <div className="absolute z-40 bg-gray-100 blur-lg w-[95%] h-[95%]"></div>
@@ -124,25 +124,31 @@ export default function () {
               </div>
             </>
           )}
-          <ChartContainer className="mt-4" config={{}}>
-            <LineChart accessibilityLayer data={chartData}>
-              <CartesianGrid vertical={false} />
-              <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
-              <YAxis domain={[0, Math.max(...chartData.map(({ total_sales }: { total_sales: number }) => total_sales)) + 20]} />
-              <XAxis dataKey="sale_date" tickLine={false} axisLine={false} tickMargin={2} />
+          <ChartContainer className="mt-8" config={{}}>
+            <LineChart accessibilityLayer data={chartData} margin={{ right: 22, left: 0 }}>
+              <CartesianGrid />
+              <ChartTooltip content={<ChartTooltipContent />} />
+              <XAxis dataKey="sale_date" />
+              <YAxis domain={[0, Math.max(...chartData.map(({ total_sales }: { total_sales: number }) => total_sales))]} />
               <Line type="natural" strokeWidth={2} dataKey="total_sales" stroke="hsl(var(--secondary))" dot={{ fill: 'hsl(var(--primary))' }} activeDot={{ r: 6 }} />
             </LineChart>
           </ChartContainer>
         </CardContent>
       </Card>
-      <Card>
-        <CardHeader>
+      <Card className="border border-gray-100 px-5 py-5 rounded-none shadow-none">
+        <CardHeader className="p-0">
           <CardTitle>New Customers</CardTitle>
           <CardDescription>
-            <div className="flex flex-row items-center justify-between w-full">
-              <span>In the last {differenceInDays(newCustomersRange.to, newCustomersRange.from)} days</span>
+            <div className="flex flex-col md:flex-row items-center justify-between w-full">
+              <div className="w-full flex flex-col gap-y-1 text-xs">
+                <span className="w-full">
+                  From{' '}
+                  {`${format(subDays(newCustomersRange.from, differenceInDays(newCustomersRange.to, newCustomersRange.from)), 'd MMMM yyyy')} to ${format(newCustomersRange.from, 'd MMMM yyyy')}`}
+                </span>
+                <span className="w-full">To {`${format(newCustomersRange.from, 'd MMMM yyyy')} to ${format(newCustomersRange.to, 'd MMMM yyyy')}`}</span>
+              </div>
               <Popover>
-                <PopoverTrigger asChild>
+                <PopoverTrigger className="mt-3" asChild>
                   <Button id="date" variant={'outline'} className={cn('w-[300px] justify-start text-left font-normal', !newCustomersRange && 'text-muted-foreground')}>
                     <CalendarIcon />
                     {newCustomersRange?.from ? (
@@ -174,7 +180,7 @@ export default function () {
             </div>
           </CardDescription>
         </CardHeader>
-        <CardContent className="relative">
+        <CardContent className="relative p-0">
           {status !== 'authenticated' && (
             <>
               <div className="absolute z-40 bg-gray-100 blur-lg w-[95%] h-[95%]"></div>
@@ -196,19 +202,26 @@ export default function () {
               </div>
             </>
           )}
-          <ChartContainer config={{}}>
+          <ChartContainer className="mt-8" config={{}}>
             <LineChart
               accessibilityLayer
+              margin={{ right: 22, left: -32 }}
               data={[
-                { value: newCustomers.prev, name: 'Last 2X days to Last X days' },
-                { value: newCustomers.new, name: 'Last X days' },
+                {
+                  value: newCustomers.prev,
+                  label: `From ${format(subDays(newCustomersRange.from, differenceInDays(newCustomersRange.to, newCustomersRange.from)), 'd MMMM yyyy')} to ${format(newCustomersRange.from, 'd MMMM yyyy')}`,
+                },
+                {
+                  value: newCustomers.new,
+                  label: `From ${format(newCustomersRange.from, 'd MMMM yyyy')} to ${format(newCustomersRange.to, 'd MMMM yyyy')}`,
+                },
               ]}
             >
-              <CartesianGrid vertical={false} />
-              <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
-              <YAxis domain={[0, Math.max(newCustomers.prev, newCustomers.new) + 2]} />
-              <XAxis dataKey="name" tickLine={false} axisLine={false} tickMargin={2} />
-              <Line className="bg-asd" dataKey="value" strokeWidth={2} type="natural" stroke="hsl(var(--secondary))" dot={{ fill: 'hsl(var(--primary))' }} activeDot={{ r: 6 }}>
+              <CartesianGrid />
+              <ChartTooltip content={<ChartTooltipContent />} />
+              <XAxis dataKey="label" />
+              <YAxis domain={[0, Math.max(newCustomers.prev, newCustomers.new)]} />
+              <Line dataKey="value" strokeWidth={2} type="natural" stroke="hsl(var(--secondary))" dot={{ fill: 'hsl(var(--primary))' }} activeDot={{ r: 6 }}>
                 <LabelList dataKey="name" />
               </Line>
             </LineChart>
